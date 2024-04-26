@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+use App\Models\User;
+use App\Models\Post;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $user3 = User::factory()->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Post::factory(10)->create([
+            'user_id' => $user1
+        ]);
+
+        Post::factory(7)->create([
+            'user_id' => $user2
+        ]);
+
+        Post::factory(5)->create([
+            'user_id' => $user3
         ]);
     }
 }
