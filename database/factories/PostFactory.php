@@ -21,12 +21,18 @@ class PostFactory extends Factory
     {
         $title = fake()->unique()->sentence(5, true);
 
+        $paragraphs = fake()->paragraphs(8, false);
+        $body = "";
+        foreach ($paragraphs as $para) {
+            $body .= "<p>{$para}</p><br>";
+        }
+
         return [
             'user_id' => User::factory(),
             'title' => $title,
             'slug' => Str::slug($title, '-'),
             'excerpt' => fake()->sentence(12, true),
-            'body' => fake()->paragraph(8, true),
+            'body' => $body,
         ];
     }
 }
