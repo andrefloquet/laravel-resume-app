@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
@@ -13,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::with('user')->get();
+        return Post::with('user')->latest()->get();
     }
 
     /**
@@ -29,7 +31,13 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $validated['slug'] = Str::slug($validated['title'], '-');
+
+        $post = Post::create($validated);
+
+        return response()->json(['success' => 'Post created successfully', 'post' => $post], 201);
     }
 
     /**

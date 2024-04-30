@@ -31,7 +31,6 @@ class PostFactory extends Factory
             'user_id' => User::factory(),
             'title' => $title,
             'slug' => Str::slug($title, '-'),
-            'excerpt' => fake()->sentence(12, true),
             'body' => $body,
         ];
     }
