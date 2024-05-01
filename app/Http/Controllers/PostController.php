@@ -8,6 +8,8 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
+use Illuminate\Http\Request;
+
 class PostController extends Controller
 {
     /**
@@ -53,15 +55,22 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return $post;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
-        //
+        //TODO: the validation is not working somehow. Try to fix it up.
+        $postData = $request->all();
+
+        $postData['slug'] = Str::slug($request['title'], '-');
+
+        $post->update($postData);
+
+        return response()->json(['success' => 'Post successfully updated', 'post' => $post]);
     }
 
     /**
